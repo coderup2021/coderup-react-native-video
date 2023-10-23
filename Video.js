@@ -69,6 +69,38 @@ export default class Video extends Component {
     }
   };
 
+  //单位：毫秒
+  seekForward = (time, tolerance = 100) => {
+    if (isNaN(time)) { throw new Error('Specified time is not a number'); }
+
+    if (Platform.OS === 'ios') {
+      this.setNativeProps({
+        seekForward: {
+          time,
+          tolerance,
+        },
+      });
+    } else {
+      this.setNativeProps({ seekForward: time });
+    }
+  };
+
+  //单位：毫秒
+  seekBackward = (time, tolerance = 100) => {
+    if (isNaN(time)) { throw new Error('Specified time is not a number'); }
+
+    if (Platform.OS === 'ios') {
+      this.setNativeProps({
+        seekBackward: {
+          time,
+          tolerance,
+        },
+      });
+    } else {
+      this.setNativeProps({ seekBackward: time });
+    }
+  };
+
   presentFullscreenPlayer = () => {
     this.setNativeProps({ fullscreen: true });
   };

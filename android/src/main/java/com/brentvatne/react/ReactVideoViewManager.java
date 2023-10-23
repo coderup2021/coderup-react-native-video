@@ -35,6 +35,8 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     public static final String PROP_STEREO_PAN = "stereoPan";
     public static final String PROP_PROGRESS_UPDATE_INTERVAL = "progressUpdateInterval";
     public static final String PROP_SEEK = "seek";
+    public static final String PROP_SEEK_FORWARD = "seekForward";
+    public static final String PROP_SEEK_BACKWARD = "seekBackward";
     public static final String PROP_RATE = "rate";
     public static final String PROP_FULLSCREEN = "fullscreen";
     public static final String PROP_PLAY_IN_BACKGROUND = "playInBackground";
@@ -151,6 +153,16 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     @ReactProp(name = PROP_SEEK)
     public void setSeek(final ReactVideoView videoView, final float seek) {
         videoView.seekTo(Math.round(seek * 1000.0f));
+    }
+
+    @ReactProp(name = PROP_SEEK_FORWARD)
+    public void setSeekForward(final ReactVideoView videoView, final int seekForward) {
+        videoView.seekForward(seekForward);
+    }
+
+    @ReactProp(name = PROP_SEEK_BACKWARD)
+    public void setSeekBackward(final ReactVideoView videoView, final int seekBackward) {
+        videoView.seekBackward(seekBackward);
     }
 
     @ReactProp(name = PROP_RATE)

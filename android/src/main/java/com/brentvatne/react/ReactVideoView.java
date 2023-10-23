@@ -653,6 +653,28 @@ public class ReactVideoView extends ScalableVideoView implements
         }
     }
 
+    public void seekForward(int msec) {
+        if (mMediaPlayerValid) {
+            int curr = mMediaPlayer.getCurrentPosition();
+            mSeekTime = curr + msec;
+            seekTo((int)mSeekTime);
+            if (isCompleted && mVideoDuration != 0 && mSeekTime < mVideoDuration) {
+                isCompleted = false;
+            }
+        }
+    }
+
+    public void seekBackward(int msec) {
+        if (mMediaPlayerValid) {
+            int curr = mMediaPlayer.getCurrentPosition();
+            mSeekTime = curr - msec;
+            seekTo((int)mSeekTime);
+            if (isCompleted && mVideoDuration != 0 && mSeekTime < mVideoDuration) {
+                isCompleted = false;
+            }
+        }
+    }
+
     @Override
     public int getBufferPercentage() {
         return 0;
