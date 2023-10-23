@@ -58,6 +58,7 @@ public class ReactVideoView extends ScalableVideoView implements
         EVENT_LOAD("onVideoLoad"),
         EVENT_ERROR("onVideoError"),
         EVENT_PROGRESS("onVideoProgress"),
+        EVENT_EXACT_PROGRESS("onExactVideoProgress"),
         EVENT_TIMED_METADATA("onTimedMetadata"),
         EVENT_SEEK("onVideoSeek"),
         EVENT_END("onVideoEnd"),
@@ -170,6 +171,14 @@ public class ReactVideoView extends ScalableVideoView implements
                 }
             }
         };
+    }
+
+    public void onExactVideoProgress(){
+        WritableMap event = Arguments.createMap();
+        event.putDouble(EVENT_PROP_CURRENT_TIME, mMediaPlayer.getCurrentPosition());
+        event.putDouble(EVENT_PROP_PLAYABLE_DURATION, mVideoBufferedDuration);
+        event.putDouble(EVENT_PROP_SEEKABLE_DURATION, mVideoDuration);
+        mEventEmitter.receiveEvent(getId(), Events.EVENT_EXACT_PROGRESS.toString(), event);
     }
 
     @Override

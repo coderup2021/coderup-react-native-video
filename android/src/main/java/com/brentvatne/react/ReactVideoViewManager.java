@@ -39,6 +39,9 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     public static final String PROP_FULLSCREEN = "fullscreen";
     public static final String PROP_PLAY_IN_BACKGROUND = "playInBackground";
     public static final String PROP_CONTROLS = "controls";
+    public static final String PROP_UPDATE_EXACT_PROGRESS = "updateExactProgress";
+
+    private boolean propUpdateExactProgress;
 
     @Override
     public String getName() {
@@ -169,4 +172,13 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     public void setControls(final ReactVideoView videoView, final boolean controls) {
         videoView.setControls(controls);
     }
+
+    @ReactProp(name = PROP_UPDATE_EXACT_PROGRESS, defaultBoolean = false)
+    public void setUpdateProgress(final ReactVideoView videoView, final boolean updateExactProgress) {
+        if (propUpdateExactProgress != updateExactProgress) {
+          videoView.onExactVideoProgress();
+          propUpdateExactProgress = updateExactProgress;
+        }
+    }
+
 }

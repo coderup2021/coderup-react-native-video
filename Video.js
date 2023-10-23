@@ -7,6 +7,7 @@ import TextTrackType from './TextTrackType';
 import FilterType from './FilterType';
 import DRMType from './DRMType';
 import VideoResizeMode from './VideoResizeMode.js';
+import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 
 const styles = StyleSheet.create({
   base: {
@@ -54,7 +55,7 @@ export default class Video extends Component {
   }
 
   seek = (time, tolerance = 100) => {
-    if (isNaN(time)) {throw new Error('Specified time is not a number');}
+    if (isNaN(time)) { throw new Error('Specified time is not a number'); }
 
     if (Platform.OS === 'ios') {
       this.setNativeProps({
@@ -119,6 +120,12 @@ export default class Video extends Component {
   _onProgress = (event) => {
     if (this.props.onProgress) {
       this.props.onProgress(event.nativeEvent);
+    }
+  };
+
+  _onExactProgress = (event) => {
+    if (this.props.onExactProgress) {
+      this.props.onExactProgress(event.nativeEvent);
     }
   };
 
@@ -262,6 +269,7 @@ export default class Video extends Component {
   };
 
   render() {
+    const updateProgress = this.props.updateProgress;
     const resizeMode = this.props.resizeMode;
     const source = resolveAssetSource(this.props.source) || {};
     const shouldCache = !source.__packager_asset;
@@ -295,6 +303,7 @@ export default class Video extends Component {
     Object.assign(nativeProps, {
       style: [styles.base, nativeProps.style],
       resizeMode: nativeResizeMode,
+      updateProgress: updateProgress,
       src: {
         uri,
         isNetwork,
@@ -309,6 +318,7 @@ export default class Video extends Component {
       onVideoLoad: this._onLoad,
       onVideoError: this._onError,
       onVideoProgress: this._onProgress,
+      onExactVideoProgress: this._onExactProgress,
       onVideoSeek: this._onSeek,
       onVideoEnd: this._onEnd,
       onVideoBuffer: this._onBuffer,
